@@ -1,0 +1,6 @@
+documentation/
+script/application/cache/*
+script/application/logs/*
+script/application/sessions/*
+!script/application/cache/index.html
+!script/application/logs/index.html

@@ -1,0 +1,286 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Developer Guide</title>
+<link rel="alternate" type="application/rss+xml" title="egrappler.com" href="feed/index.html">
+<link href="http://fonts.googleapis.com/css?family=Raleway:700,300" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/prettify.css">
+<link rel="stylesheet" href="css/magnific-popup.css">
+<style>
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <h2 class="docs-header">Developer Guide</h2>
+  </div>
+</header>
+<section>
+  <div class="container">
+    <ul class="docs-nav" id="menu-left" style="height: 600px; overflow-x: hidden;">
+      <li><a href="#introduction">Introduction</a></li>
+      <li><a href="#routes">Routes</a></li>
+      <li><a href="#controllers">Controllers</a></li>
+      <li><a href="#models">Models</a></li>
+      <li><a href="#views">Views</a></li>
+      <li><a href="#assets">Assets</a></li>
+      <li><a href="#schema">Schema / Database</a></li>
+      <li><a href="#data">Data</a></li>
+      <li><a href="#apis">Apis</a></li>
+      <li><a href="#datatables">Datatables</a></li>
+      <li><a href="#app.js">app.js</a></li>
+      <li><a href="#crud">CRUD Operations</a></li>
+      <li><a href="#csrf">CSRF</a></li>
+      <li><a href="#sql">SQL Injections</a></li>
+      <li><a href="#install">Installation & 'env'</a></li>
+      <li><a href="#helper">Functions Helper</a></li>
+    </ul>
+    <div class="docs-content">
+      <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+      <h3> Introduction</h3>
+      <p>
+        The system is built on codeigniter with the standards and code practices recommended in 
+        <a href="https://codeigniter.com/user_guide/index.html" target="_blank">official documentation.</a> The system is fully tested and have no major bugs at it's core. Still there are any mis expectations, they will be fixed shortly in the updates.<Br />
+        The system is built on a "modular" approach. Every module like 'user / candidate / quiz' has separate files. e.g. (Controller, Model, Views Folder, Routes, Js). Like for a department module, there is
+        <ol>
+          <li>application->controllers->Departments.php</li>
+          <li>application->models->DepartmentModel.php</li>
+          <li>application->views->admin->departments->list.php</li>
+          <li>application->views->admin->departments->create-or-edit.php</li>
+          <li>assets->admin->js->cf->department.js</li>
+        </ol>
+        All modules are following the same convention with very few exceptions in the system.
+      </p>
+
+      <div id="routes" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Routes</h3>
+      <p>
+        As recommended by CodeIgniter and other MVC frameworks, routes are used to simplify and create an ease in the request structure for the application. The Routes file can be located at <br />
+        <strong>"root -> application -> config -> routes.php"</strong><br />
+        All backend / admin routes are prefixed with '/admin' and are in the beginning of the routes file.
+      </p>
+      <a class="img-link" href="images/dev-routes.jpg"><img src="images/dev-routes.jpg" /></a>
+
+      <div id="controllers" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Controllers</h3>
+      <p>
+        Controllers are core part of any MVC framework. All http requests lands on controller functions resolved via routes.<Br />
+        Admin controllers are located at : <strong>"root -> application -> controllers -> admin"</strong><br />
+        Front controllers are located at : <strong>"root -> application -> controllers"</strong><br />
+        The approach is followed to separate the backend functionality from the frontend.
+      </p>
+      <a class="img-link" href="images/dev-controllers.jpg"><img src="images/dev-controllers.jpg" /></a>
+
+      <div id="models" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Models</h3>
+      <p>
+        Models are core part of any MVC framework. Models are called via controller functions. All Database queries are written in in "Query Builder" feature of the CodeIgniter framework in models. The models for Backend/Admin are separate from the Frontend to accomplish "Loose Coupling" and to have an ease to modify the code. Models are located at <Br />
+        <strong>"root -> application -> models"</strong><br />
+      </p>
+      <a class="img-link" href="images/dev-models.jpg"><img src="images/dev-models.jpg" /></a>
+
+      <div id="views" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Views</h3>
+      <p>
+        Views are third most integral part of any MVC framework. <Br />
+        Admin views are located at : <strong>"root -> application -> views -> admin"</strong>
+        As in the pictures, views are arranged module wise.<br />
+        <a class="img-link" href="images/dev-admin-views.jpg"><img src="images/dev-admin-views.jpg" /></a><br />
+        Front views are located at : <strong>"root -> application -> views -> front"</strong><br />
+        <a class="img-link" href="images/dev-front-views.jpg"><img src="images/dev-front-views.jpg" /></a>
+      </p>
+
+      <div id="assets" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Assets</h3>
+      <p>
+        Assets is the folder in the root where all the theme files (js, css and image) are stored. Also, as stated above this folder also contains the functional javascript files. Folders are separated for frontend and admin.<Br />
+        Assets are located at : <strong>"root -> application -> assets"</strong>
+        <a class="img-link" href="images/dev-assets.jpg"><img src="images/dev-assets.jpg" /></a><br />
+      </p>
+
+      <div id="schema" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Schema / Database</h3>
+      <p>
+        To avoid the hassle of creating ".sql files" and importing them manually, the complete database structure is written inside the application itself in the "SchemaModel.php" file. With the help of Codeigniter's "DBFORGE" class, all table definitions are written as separate functions in this file. You need to simply access the url like below and the whole database will be created.<br />
+        Note : The database information should already be there in "root -> application -> config -> database.php" file.<Br />
+        Route for creating schema : <strong>"https://www.example.com/schema"</strong><br />
+        Schema Class/Controller is located at : <strong>"root -> application -> controllers -> Schema.php"</strong>
+        <a class="img-link" href="images/dev-schema.jpg"><img src="images/dev-schema.jpg" /></a><br />
+        <a class="img-link" href="images/dev-schema.jpg"><img src="images/dev-table.jpg" /></a><br />
+      </p>
+
+      <div id="data" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Data</h3>
+      <p>
+        To see the application in action and to explore all it's options, it is required that there is some data. For this purpose "DataModel.php" is created which can be accessed with the url below to import all the data.<br />
+        Route for importing data : <strong>"https://www.example.com/import-data"</strong><br />
+        <a class="img-link" href="images/dev-data.jpg"><img src="images/dev-data.jpg" /></a><br />
+      </p>
+
+      <div id="apis" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Apis</h3>
+      <p>
+        <strong>Google Login</strong> Google client library is installed via composer and cleaned a bit to only have relevant code. The credentials for it to work are stored in database and the main client is written in the root/core controller.<br /><br />
+        <a class="img-link" href="images/dev-google.jpg"><img src="images/dev-google.jpg" /></a><br />
+        <strong>Linkedin Login</strong> The linkedin client is served via a helper stored in "application -> helpers -> linkedin_helper.php". The credentials are again stored in database.<br /><br />
+        <a class="img-link" href="images/dev-linkedin.jpg"><img src="images/dev-linkedin.jpg" /></a><br />
+        Candidates.php (Front Controller) class where the above two features are implemented.
+        <a class="img-link" href="images/dev-login.jpg"><img src="images/dev-login.jpg" /></a><br />
+      </p>
+
+      <div id="datatables" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Datatables</h3>
+      <p>
+        Datatables are used natively without any external dependency to avoid performance overhead. So, in five simple steps, datatable requests are done.
+        <br />
+        <strong>1. Request initiated from .js file with all the filters.</strong><br />
+        <a class="img-link" href="images/dev-dt-1.jpg"><img src="images/dev-dt-1.jpg" /></a><br />
+        <strong>2. Request goes to routes.php file on this line as post request.</strong><br />
+        <a class="img-link" href="images/dev-dt-2.jpg"><img src="images/dev-dt-2.jpg" /></a><br />
+        <strong>3. Request goes to controller function.</strong><br />
+        <a class="img-link" href="images/dev-dt-4.jpg"><img src="images/dev-dt-4.jpg" /></a><br />
+        <strong>4. Request goes relevant model function and filters are implemented.</strong><br />
+        <a class="img-link" href="images/dev-dt-3.jpg"><img src="images/dev-dt-3.jpg" /></a><br />
+        <strong>5. Request then goes to sort function and then finally returned to view from controller.</strong><br />
+        <a class="img-link" href="images/dev-dt-5.jpg"><img src="images/dev-dt-5.jpg" /></a><br />
+        In this way, all of the admin datatables are working.
+      </p>
+
+      <div id="app.js" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> App.js</h3>
+      <p>
+        This file is one of the most important one in the system as it is the wrapper / abstract class for all the javascript functionalities like AJAX requests, form submissions, message display and other things. It is included in the main footer file for both admin and front end as separate copies. <Br />
+        The file is located at <strong>"root -> application -> assets -> -> admin -> js -> cf -> app.js"</strong><br />
+        and at <strong>"root -> application -> assets -> -> front -> js ->  app.js"</strong><br />
+        <br />
+        All of the module js files are using functionalities from this class to maintain modifications and reusability. Module files as mentioned above are included in every module's index.php/list.php file.
+      </p>
+
+      <div id="crud" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> CRUD Operations</h3>
+      <p>
+        Almost all crud operations are following this convention of routes in the whole application. 
+        <br />
+        <a class="img-link" href="images/dev-crud-routes.jpg"><img src="images/dev-crud-routes.jpg" /></a><br />
+        <strong>1a 'admin/companies'.</strong> First is for main page of module.<br />
+        <a class="img-link" href="images/dev-list.jpg"><img src="images/dev-list.jpg" /></a><br />
+        <strong>1b 'admin/companies/data'.</strong> This one is for main page as well which is requested as an ajax get request after the main page is loaded.<br />
+        <a class="img-link" href="images/dev-data-2.jpg"><img src="images/dev-data-2.jpg" /></a><br />
+        <a class="img-link" href="images/dev-data-3.jpg"><img src="images/dev-data-3.jpg" /></a><br />
+        <strong>2a 'admin/companies/create-or-edit'.</strong> This routes is also requested via ajax get request and it loads the form from view partial into the modal.<br />
+        <strong>2b 'admin/companies/create-or-edit/(:any)'.</strong> This is same is above but the difference here is that, it happens in "EDIT" scenario and the above happens in create scenario<br />
+        <a class="img-link" href="images/dev-create-or-edit.jpg"><img src="images/dev-create-or-edit.jpg" /></a><br />
+        <a class="img-link" href="images/dev-create-or-edit-2.jpg"><img src="images/dev-create-or-edit-2.jpg" /></a><br />
+        <strong>3 'admin/companies/save'.</strong> When the forms loaded in '2a' and '2b' are submitted, they are submitted to this as ajax post request which either successfully stores the data or return any errors if any. <br />
+        <a class="img-link" href="images/dev-save.jpg"><img src="images/dev-save.jpg" /></a><br />
+        <a class="img-link" href="images/dev-save-2.jpg"><img src="images/dev-save-2.jpg" /></a><br />
+        <strong>4 'admin/companies/status'.</strong> This route is again accessed via ajax get request and used to change the resource information to either active or inactive. <br />
+        <a class="img-link" href="images/dev-change-status.jpg"><img src="images/dev-change-status.jpg" /></a><br />
+        <a class="img-link" href="images/dev-change-status-2.jpg"><img src="images/dev-change-status-2.jpg" /></a><br />
+        <strong>5 'admin/companies/bulk-action'.</strong> In listing screens of the application, there is an "Actions" menu which on selecting any item hit on this route via the below function. <br />
+        <a class="img-link" href="images/dev-bulk-action.jpg"><img src="images/dev-bulk-action.jpg" /></a><br />
+        <a class="img-link" href="images/dev-bulk-action-2.jpg"><img src="images/dev-bulk-action-2.jpg" /></a><br />
+      </p>
+
+      <div id="csrf" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> CSRF Protection</h3>
+      <p>
+        CSRF protection is implemented in app.js with every request<Br />
+        CSRF token is generated and added in header.php file and adds to every request from app.js<br />
+        Whenever any request is not via app.js, then form_open method of codeigniter is used which automatically adds token variable.
+      </p>
+
+      <div id="sql" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> SQL Injection Prevention & XSS</h3>
+      <p>
+        All queries are used with the help of codeigniter's "Active Records" which automatically prevents sql injection attacks.
+        <br />
+        XSS is implemented via the security helper of codeigniter on all post variables.
+      </p>
+
+      <div id="install" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> Installation</h3>
+      <p>
+        The "install" folder in the root of the application/script folder is written with native/core php and have no direct link with the application. As in the user documentation, when <strong>"https://www.example.com/install"</strong> is accessed, installation wizard starts. Also, it is written in index.php that if there is no env file in the root of the application, it will redirected to this url. <br />Installation is divided in three steps. It hits the application route <strong>"https://www.example.com/complete-install"</strong> route in the second step which creates the database and imports the data (dummy). This step also creates an env file with some constants which it gets during runtime from the environment and inputs and writes to this 'env.php' file.<Br />
+        The env is included in the codeigniter's main index.php file which can be removed as needed and constants needs to be removed from config/config.php and config/database.php.
+        <a class="img-link" href="images/dev-env.jpg"><img src="images/dev-env.jpg" /></a><br />
+      </p>
+
+      <div id="helper" style="border-bottom:1px dashed; border-top: 1px dashed; height: 100px; width: 100%;"></div>
+      <h3> General Functions Helper</h3>
+      <p>
+        As allowed by the standards of codeigniter and as required in any php application, there are some miscellaneous functions required for some small actions like application wise date formats, cutting large strings into small, sorting arrays etc. For these action, a file is included in <strong>"root -> application -> helpers -> functions_helper.php"</strong> and loaded in config/autoload.php so they are available in the application's global scope.
+      </p>
+
+    
+    </div>
+  </div>
+</section>
+<footer>
+</footer>
+<script src="js/jquery.min.js"></script> 
+<script type="text/javascript" src="js/prettify/prettify.js"></script> 
+<script type="text/javascript" src="js/magnific-popup.js"></script> 
+<script src="js/layout.js"></script>
+<script src="js/jquery.localscroll-1.2.7.js" type="text/javascript"></script>
+<script src="js/jquery.scrollTo-1.4.3.1.js" type="text/javascript"></script>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+$(document).ready(function() {
+  $('.img-link').magnificPopup({
+    type: 'image',
+    closeOnContentClick: true,
+    mainClass: 'mfp-img-mobile',
+    image: {
+      verticalFit: true
+    }
+  });  
+});
+</script>
+</body>
+</html>

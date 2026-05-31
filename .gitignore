@@ -1,0 +1,10 @@
+.DS_Store
+.vercel/
+
+script/application/cache/*
+script/application/sessions/*
+script/application/logs/*
+!script/application/cache/index.html
+!script/application/logs/index.html
+
+script/vendor/
