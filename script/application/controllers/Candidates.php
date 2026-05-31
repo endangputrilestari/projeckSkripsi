@@ -33,8 +33,7 @@ class Candidates extends CI_Controller
         $data['slug'] = $slug;
 
         if (setting('enable-google-login') == 'yes') {
-            $client = $this->getGoogleClient();
-            $data['googleLogin'] = $client->createAuthUrl();
+            $data['googleLogin'] = $this->getGoogleAuthUrl();
         } else {
             $data['googleLogin'] = '';
         }
@@ -526,20 +525,23 @@ class Candidates extends CI_Controller
      */
     public function googleRedirect()
     {
-        $client = $this->getGoogleClient();
-
         // authenticate code from Google OAuth Flow
         if (isset($_GET['code'])) {
-            $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
-            $client->setAccessToken($token['access_token']);
+            $token = $this->getGoogleAccessToken($_GET['code']);
+            if (!isset($token['access_token'])) {
+                redirect('/login');
+            }
 
             // get profile info
-            $google_oauth = new Google_Service_Oauth2($client);
-            $google_account_info = $google_oauth->userinfo->get();
-            $id =  $google_account_info->id;
-            $email =  $google_account_info->email;
-            $name =  $google_account_info->name;
-            $image = $google_account_info->picture;
+            $google_account_info = $this->getGoogleProfile($token['access_token']);
+            $id = isset($google_account_info['id']) ? $google_account_info['id'] : '';
+            $email = isset($google_account_info['email']) ? $google_account_info['email'] : '';
+            $name = isset($google_account_info['name']) ? $google_account_info['name'] : '';
+            $image = isset($google_account_info['picture']) ? $google_account_info['picture'] : '';
+
+            if (!$id || !$email) {
+                redirect('/login');
+            }
 
             $result = $this->CandidateModel->createGoogleCandidateIfNotExist($id, $email, $name, $image);
             if ($result) {

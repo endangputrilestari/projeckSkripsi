@@ -1,4 +1,6 @@
 documentation/
+.git/
+script/vendor/
 script/application/cache/*
 script/application/logs/*
 script/application/sessions/*

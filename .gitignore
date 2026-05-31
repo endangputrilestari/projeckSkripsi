@@ -8,3 +8,5 @@ script/application/logs/*
 !script/application/logs/index.html
 
 script/vendor/
+
+.vercel

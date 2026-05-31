@@ -232,26 +232,69 @@ class CI_Controller
     }    
 
     /**
-     * Function to get google client for google login
+     * Function to get google auth URL for google login
      *
-     * @return Google_Client
+     * @return string
      */
-    public function getGoogleClient()
+    public function getGoogleAuthUrl()
     {
-        // init configuration
+        $clientID = setting('google-client-id');
+        $redirectUri = base_url() . 'google-redirect';
+
+        if (!$clientID) {
+            return '';
+        }
+
+        return 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query(array(
+            'response_type' => 'code',
+            'client_id' => $clientID,
+            'redirect_uri' => $redirectUri,
+            'scope' => 'email profile',
+            'access_type' => 'online',
+        ));
+    }
+
+    public function getGoogleAccessToken($code)
+    {
         $clientID = setting('google-client-id');
         $clientSecret = setting('google-client-secret');
         $redirectUri = base_url() . 'google-redirect';
 
-        // create Client Request to access Google API
-        $client = new Google_Client();
-        $client->setClientId($clientID);
-        $client->setClientSecret($clientSecret);
-        $client->setRedirectUri($redirectUri);
-        $client->addScope("email");
-        $client->addScope("profile");
+        return $this->googleRequest('https://oauth2.googleapis.com/token', array(
+            'code' => $code,
+            'client_id' => $clientID,
+            'client_secret' => $clientSecret,
+            'redirect_uri' => $redirectUri,
+            'grant_type' => 'authorization_code',
+        ));
+    }
 
-        return $client;
+    public function getGoogleProfile($accessToken)
+    {
+        return $this->googleRequest(
+            'https://www.googleapis.com/oauth2/v2/userinfo',
+            null,
+            array('Authorization: Bearer ' . $accessToken)
+        );
+    }
+
+    private function googleRequest($url, $postData = null, $headers = array())
+    {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if ($postData !== null) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+            $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        }
+        if ($headers) {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        }
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $decoded = json_decode($response, true);
+        return is_array($decoded) ? $decoded : array();
     }
 
     /**
